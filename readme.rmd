@@ -1,0 +1,20 @@
+### ADSD | UFCG
+
+--
+
+### O simulador deve receber como parâmetros de entrada
+- o tipo de distribuição da chegada,
+- os parâmetros específicos para cada uma das distribuições,
+- o valor médio do tempo de serviço para ser usado para o escalonamento do término do serviço,
+- a duração da simulação e
+- a quantidade de repetições desejadas.
+
+
+### Como saída, para cada uma das repetições executadas, devem ser apresentados os seguintes dados:
+- Distribuição de chegada passada (indicando a distribuição de probabilidade utilizada e seus parâmetros)
+- Valor médio serviço passado
+- Duração da Simulação: A
+- Quantidade de Requisições recebidas: B
+- Quantidade de Requisições atendidas: C
+- Tempo médio de atendimento: D
+- Quantidade média de elementos em espera: E

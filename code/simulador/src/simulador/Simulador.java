@@ -24,7 +24,7 @@ public class Simulador {
 	
 	public void simulate() {
 		sendConsumer();
-		Thread.sleep(dMath.round(getGenerator().sample()));
+//		Thread.sleep(Math.round(getGenerator().sample()));
 	}
 	
 
@@ -64,6 +64,7 @@ public class Simulador {
 //		Implementation of the exponential distribution.
 //		org.apache.commons.math3.distribution.NormalDistribution
 		
+		System.out.println("Hello bitch");
 		
 		
 

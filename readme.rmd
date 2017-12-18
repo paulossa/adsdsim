@@ -3,11 +3,11 @@
 --
 
 ### O simulador deve receber como parâmetros de entrada
-- o tipo de distribuição da chegada,
-- os parâmetros específicos para cada uma das distribuições,
-- o valor médio do tempo de serviço para ser usado para o escalonamento do término do serviço,
-- a duração da simulação e
-- a quantidade de repetições desejadas.
+- O tipo de distribuição da chegada,
+- Os parâmetros específicos para cada uma das distribuições,
+- O valor médio do tempo de serviço para ser usado para o escalonamento do término do serviço,
+- A duração da simulação e
+- A quantidade de repetições desejadas.
 
 
 ### Como saída, para cada uma das repetições executadas, devem ser apresentados os seguintes dados:
@@ -18,3 +18,4 @@
 - Quantidade de Requisições atendidas: C
 - Tempo médio de atendimento: D
 - Quantidade média de elementos em espera: E
+

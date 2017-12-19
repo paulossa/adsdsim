@@ -35,16 +35,34 @@ public class Simulador {
 		this.startTime = new Date().getTime();
 	}
 	
+	public long totalTime(long timeInit, long timeFinish) {
+		return timeFinish - timeInit ;
+	}
+	
 	public void simulate() throws InterruptedException {
-		setStartTime();
+		setStartTime(); //tempo inicial da execução do programa
+		int total = 0;	
 		for (int i = 0; i < repetitions; i++) {
-			while ((getCurrentTime() - this.startTime <= this.duration)) {
+			long startTimeRepetiton = new Date().getTime(); // tempo inicial de cada repetição
+			int count = 0;
+			while ((getCurrentTime() - startTimeRepetiton <= this.duration)) {
 //				sendConsumer();
 				System.out.println((getGenerator().sample() * 1000));
 //				Thread.sleep( (long) (getGenerator().sample() * 1000));
-				
+				count++;	
 			}
+			total += count;
+			System.out.println("---------------------- " + "Tipo da distribuição: " + nameDist(distribution));
+			System.out.println("---------------------- " + "Parâmentro da distribuição: " + mean);
+			System.out.println("---------------------- " + "Repetição: " + i); // qual repetição está
+			System.out.println("---------------------- " + "Tempo da repetição: " + (getCurrentTime() - startTimeRepetiton));
+			System.out.println("---------------------- " + "Tempo médio de atendimento - repetição: " + ((float)(getCurrentTime() - startTimeRepetiton)/count)); //tentar usando bigdecimal
+			System.out.println("---------------------- " + "Quantidade de elementos por repetição: " + count); // imprime quantidade por repetição
+			
 		}
+		System.out.println("\nTotal de elementos: " + total); // imprime o total de elementos das x repetições
+		System.out.println("Tempo total: " + totalTime(this.startTime, getCurrentTime())); //imprime o tempo total somado as x repetições
+		System.out.println("Tempo médio de atendimento - total: " + (float)(getCurrentTime() - this.startTime)/total);
 	}
 	
 
@@ -59,6 +77,15 @@ public class Simulador {
 		case UNIFORM_DIST: 	realDist = new UniformRealDistribution();
 			break;
 		}
+	}
+	
+	private String nameDist(int distribution) {
+		switch(distribution) {
+		case 1: return "Normal";
+		case 2: return "Exponencial";
+		case 3: return "Uniforme";
+		}
+		return "";
 	}
 	
 	private AbstractRealDistribution getGenerator() { return realDist; }
@@ -77,9 +104,8 @@ public class Simulador {
 
 		
 		
-		Simulador simulador = new Simulador(Simulador.EXP_DIST, .5, 3000, 30);
+		Simulador simulador = new Simulador(Simulador.EXP_DIST, 0.5, 3, 3);
 		simulador.simulate();
-		
 		
 		
 		System.out.println("Hello bitch");

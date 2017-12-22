@@ -1,7 +1,6 @@
 package simulador;
 
 import org.apache.commons.math3.distribution.*;
-import java.util.Date;
 import java.util.LinkedList;import java.util.function.Predicate;
 
 public class Simulador {
@@ -37,15 +36,12 @@ public class Simulador {
 		int total = 0;	
 		for (int i = 0; i < repetitions; i++) {
 			server = new Server(mean);
-			requests = new LinkedList();
+			requests = new LinkedList<Double>();
 			requestsSent = 0;
 			
 			for (int presentTime = 0; presentTime < duration; presentTime++) {
 				double requestTime = presentTime + Math.floor(getGenerator().sample());
-				if (requests.size() < 2) {
-					requests.add(requestTime);
-//					System.out.println(String.format("%d %s", presentTime, requests.toString()));
-				}
+				if (requests.size() < 2) { requests.add(requestTime); }
 				
 				
 				final int paramTime = presentTime;
@@ -89,16 +85,13 @@ public class Simulador {
 	
 	private AbstractRealDistribution getGenerator() { return realDist; }
 
-	private void sendRequestToServer() {
-		
-	}
-
+	
 	// Considere o trecho de código abaixo independente da classe acima.
 	
 	public static void main(String[] args) throws InterruptedException {
 
 		int repetitions = 20;
-		int duration = 6000;
+		int duration = 10000;
 		
 		int[] distributions = {Simulador.EXP_DIST, Simulador.NORMAL_DIST, Simulador.UNIFORM_DIST};
 		System.out.println(

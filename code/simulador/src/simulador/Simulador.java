@@ -38,12 +38,13 @@ public class Simulador {
 		for (int i = 0; i < repetitions; i++) {
 			server = new Server(mean);
 			requests = new LinkedList();
+			requestsSent = 0;
 			
 			for (int presentTime = 0; presentTime < duration; presentTime++) {
 				double requestTime = presentTime + Math.floor(getGenerator().sample());
 				if (requests.size() < 2) {
 					requests.add(requestTime);
-					System.out.println(String.format("%d %s", presentTime, requests.toString()));
+//					System.out.println(String.format("%d %s", presentTime, requests.toString()));
 				}
 				
 				
@@ -54,40 +55,34 @@ public class Simulador {
 					server.receivesRequest(presentTime);
 					requestsSent++;
 				}
-				server.clock(presentTime);
-//				count++;	
+				server.clock(presentTime);	
 			}
-			
-			
-			
-//			total += count;
-//			System.out.println("---------------------- " + "Tipo da distribuição: " + nameDist(distribution));
-//			System.out.println("---------------------- " + "Parâmentro da distribuição: " + mean);
-//			System.out.println("---------------------- " + "Repetição: " + i); // qual repetição está
-//			System.out.println("---------------------- " + "Tempo da repetição: " + (getCurrentTime() - startTimeRepetiton));
-//			System.out.println("---------------------- " + "Tempo médio de atendimento - repetição: " + ((float)(getCurrentTime() - startTimeRepetiton)/count)); //tentar usando bigdecimal
-//			System.out.println("---------------------- " + "Quantidade de elementos por repetição: " + count); // imprime quantidade por repetição
-			
+			System.out.println(
+					String.format("%s;%.2f;%d;%d;%d;%.2f;%.2f", 
+							nameDist(distribution), 
+							mean, 
+							duration, 
+							requestsSent, 
+							server.totalServed() , 
+							server.avgServiceTime(), 
+							server.avgWaitingCount(duration)));
 		}
-//		System.out.println("\nTotal de elementos: " + total); // imprime o total de elementos das x repetições
-//		System.out.println("Tempo total: " + totalTime(this.startTime, getCurrentTime())); //imprime o tempo total somado as x repetições
-//		System.out.println("Tempo médio de atendimento - total: " + (float)(getCurrentTime() - this.startTime)/server.something()?total);
 	}
 	
 
 	private void setDist(int distribution) {
 		switch (distribution) {
-			case NORMAL_DIST: 	realDist = new NormalDistribution(); 			break;
+			case NORMAL_DIST: 	realDist = new NormalDistribution(mean, mean*.3); 			break;
 			case EXP_DIST: 		realDist = new ExponentialDistribution(mean); 	break;
-			case UNIFORM_DIST: 	realDist = new UniformRealDistribution();    	break;
+			case UNIFORM_DIST: 	realDist = new UniformRealDistribution(mean*.3, mean*1.6);    	break;
 		}
 	}
 	
 	private String nameDist(int distribution) {
 		switch(distribution) {
-			case 1: return "Normal";
-			case 2: return "Exponencial";
-			case 3: return "Uniforme";
+			case 1: return "Normal - mean 25 - sd 25*.3";
+			case 2: return "Exponencial - mean 25";
+			case 3: return "Uniforme - lower 25*.3, upper 25*1.6";
 		}
 		return "";
 	}
@@ -103,10 +98,15 @@ public class Simulador {
 	public static void main(String[] args) throws InterruptedException {
 
 		int repetitions = 20;
-		int duration = 5000;
+		int duration = 6000;
 		
-		Simulador simulador = new Simulador(Simulador.EXP_DIST, 25, duration, repetitions);
-		simulador.simulate();
-		System.out.println("END");
+		int[] distributions = {Simulador.EXP_DIST, Simulador.NORMAL_DIST, Simulador.UNIFORM_DIST};
+		System.out.println(
+				String.format("distname;mean;duration;reqsent;reqserved;avgSvcTime;avgWaitingCount")	
+			);
+		for (int dist: distributions) {
+			Simulador simulador = new Simulador(dist, 25, duration, repetitions);
+			simulador.simulate();
+		}
 	}
 }
